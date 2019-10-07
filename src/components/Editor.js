@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import InputArea from './Textarea';
 import Preview from './Preview';
 
@@ -8,9 +8,16 @@ const containerStyle = {
 };
 
 const boxStyle = {
-    height: "100vh",
+    minHeight: '100vh',
     width: "50vw",
     padding: "20px"
+};
+
+const inputAreaStyle = {
+    border: "none",
+    borderRight: "1px solid rgba(0,0,0,0.1)",
+    fontSize: "20px",
+    outline: "none"
 };
 
 const Editor = () => {
@@ -18,10 +25,15 @@ const Editor = () => {
 
     const handleChange = e => {
         setText(e.target.value);
+        localStorage.setItem('text', e.target.value);
     };
+    useEffect(() => {
+        setText(localStorage.getItem('text') || '');
+    }, []);
+
     return (
         <div style={containerStyle}>
-            <InputArea handleChange={handleChange} value={text} style={{...boxStyle, fontSize: "20px"}}/>
+            <InputArea handleChange={handleChange} value={text} style={{...boxStyle, ...inputAreaStyle}}/>
             <Preview text={text} style={boxStyle}/>
         </div>
     )
