@@ -1,11 +1,6 @@
 import React, {useState} from 'react'
 import InputArea from './Textarea';
-import 'github-markdown-css';
-
-
-const remark = require('remark');
-const reactRenderer = require('remark-react');
-
+import Preview from './Preview';
 
 const containerStyle = {
     display: "flex",
@@ -14,7 +9,8 @@ const containerStyle = {
 
 const boxStyle = {
     height: "100vh",
-    width: "50vw"
+    width: "50vw",
+    padding: "20px"
 };
 
 const Editor = () => {
@@ -26,13 +22,7 @@ const Editor = () => {
     return (
         <div style={containerStyle}>
             <InputArea handleChange={handleChange} value={text} style={{...boxStyle, fontSize: "20px"}}/>
-            <div style={boxStyle}>
-                <div className={"markdown-body"}>
-                    {remark().use(reactRenderer, {
-                        sanitize: false,
-                    }).processSync(text).contents}
-                </div>
-            </div>
+            <Preview text={text} style={boxStyle}/>
         </div>
     )
 };
